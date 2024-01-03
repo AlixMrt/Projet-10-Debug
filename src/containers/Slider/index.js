@@ -10,11 +10,14 @@ const Slider = () => {
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
     new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
   );
+
   const nextCard = () => {
-    setTimeout(
-      () => setIndex(index < byDateDesc.length ? index + 1 : 0),
-      5000
-    );
+    if (byDateDesc) {
+      setTimeout(
+        () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0),
+        5000
+      );
+    }
   };
   useEffect(() => {
     nextCard();
@@ -22,9 +25,10 @@ const Slider = () => {
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
+        // Ajout d'une div au sein de la fonction map pour pouvoir fournir un ID à chaque élément parent généré automatiquement
+        // La propriété key existait sur la div SlideCard enfante d'une balise vide <></>
+        <div key={event.title}>
           <div
-            key={event.title}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
@@ -41,16 +45,18 @@ const Slider = () => {
           <div className="SlideCard__paginationContainer">
             <div className="SlideCard__pagination">
               {byDateDesc.map((_, radioIdx) => (
+                // Génération d'une key unique pour chaque input (radio bouton) créé
                 <input
-                  key={`${event.id}`}
+                  key={`${radioIdx * 3}`}
                   type="radio"
                   name="radio-button"
-                  checked={idx === radioIdx}
+                  checked={radioIdx === index}
+                  readOnly
                 />
               ))}
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

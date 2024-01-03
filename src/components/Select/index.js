@@ -15,8 +15,10 @@ const Select = ({
 }) => {
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
+
+  // Ajout d'une value pour à la l'evennement onChange pour mettre a jour les dots du slider
   const changeValue = (newValue) => {
-    onChange();
+    onChange(newValue);
     setValue(newValue);
     setCollapsed(newValue);
   };
@@ -32,7 +34,8 @@ const Select = ({
             <>
               {!titleEmpty && (
                 <li onClick={() => changeValue(null)}>
-                  <input defaultChecked={!value} name="selected" type="radio" />{" "}
+                  <input defaultChecked={!value} name="selected" type="radio" />
+                  {/* Retrait de code non nécessaire */}
                   Toutes
                 </li>
               )}
@@ -42,7 +45,9 @@ const Select = ({
                     defaultChecked={value === s}
                     name="selected"
                     type="radio"
-                  />{" "}
+                  />
+                  {/* Retrait de code non nécessaire */}
+
                   {s}
                 </li>
               ))}
@@ -88,7 +93,7 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-}
+};
 
 Select.defaultProps = {
   onChange: () => null,
@@ -96,6 +101,6 @@ Select.defaultProps = {
   label: "",
   type: "normal",
   name: "select",
-}
+};
 
 export default Select;
